@@ -5,6 +5,11 @@ interface IMediaCard {
     media: IMedia
 }
 
+const getFormatedDate = (date: string) => {
+    let formatedDate = (new Date(date)).toLocaleDateString();
+    return formatedDate;
+}
+
 function MediaCard(props: IMediaCard) {
     return (
         <Card sx={{ display: 'flex' }}>
@@ -20,7 +25,7 @@ function MediaCard(props: IMediaCard) {
                         {props.media.name}
                     </Typography>
                     <Typography variant="subtitle1" color="text.secondary" component="div">
-                        {props.media.first_air_date}
+                        {getFormatedDate(props.media.first_air_date)}
                     </Typography>
                 </CardContent>
             </Box>
