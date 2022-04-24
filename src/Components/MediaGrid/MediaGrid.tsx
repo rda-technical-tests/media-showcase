@@ -11,27 +11,19 @@ interface IMediaGridProps {
 function MediaGrid(props: IMediaGridProps) {
     const [selectedMedia, setSelectedMedia] = useState<IMedia>();
 
-    /*useEffect(
+    useEffect(
         () => {
-            console.log(`New selected media : ${selectedMedia?.id} - ${selectedMedia?.name}`);
-            // (props.onMediaSelection && selectedMedia) ?
-            //     props.onMediaSelection(selectedMedia)
-            //     : undefined
+            if (props.onMediaSelection !== undefined && selectedMedia !== undefined) {
+                console.log(`New selected media : ${selectedMedia.id} - ${selectedMedia.name}`);
+                props.onMediaSelection(selectedMedia)
+            }
         }
         , [selectedMedia]
-    );*/
+    );
 
     const onMediaClick = (media: IMedia) => {
-        console.log("click :" + media.name);
         setSelectedMedia(media);
     };
-
-    const callback = useCallback(() => {
-        console.log("click :" + media.name);
-        setSelectedMedia(media);
-    },
-        [media]
-    )
 
     return (
         <Grid
@@ -47,7 +39,10 @@ function MediaGrid(props: IMediaGridProps) {
                         <Grid
                             item
                             key={media.id}
-                            xs={2}
+                            xs={12}
+                            sm={4}
+                            md={3}
+                            lg={2}
                         >
                             <MediaCard
                                 onClick={() => onMediaClick(media)}

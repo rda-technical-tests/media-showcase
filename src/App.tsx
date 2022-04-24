@@ -12,13 +12,15 @@ const darkTheme = createTheme({
 });
 
 function App() {
-
+  const medias = movieDBServiceMockup.results;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedMedia, setSelectedMedia] = useState<IMedia>();
+
   const handleOpen = () => setIsModalOpen(true);
   const handleClose = () => setIsModalOpen(false);
-  const medias = movieDBServiceMockup.results;
 
   const handleMediaSelection = (media: IMedia) => {
+    setSelectedMedia(media);
     handleOpen();
   }
 
@@ -39,7 +41,10 @@ function App() {
           }
         </Grid>
       </Grid>
-      <MediaDetails isOpen={isModalOpen} handleClose={handleClose} />
+      {selectedMedia ?
+        <MediaDetails isOpen={isModalOpen} handleClose={handleClose} media={selectedMedia} />
+        : <></>
+      }
     </ThemeProvider>
   );
 }
