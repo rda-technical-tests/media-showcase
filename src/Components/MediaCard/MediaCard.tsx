@@ -1,7 +1,8 @@
-import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material"
+import { Box, Card, CardActionArea, CardContent, CardMedia, CardProps, Typography } from "@mui/material"
+import { useState } from "react";
 import IMedia from "../../Models/IMedia"
 
-interface IMediaCard {
+interface IMediaCard extends CardProps {
     media: IMedia
 }
 
@@ -11,24 +12,30 @@ const getFormatedDate = (date: string) => {
 }
 
 function MediaCard(props: IMediaCard) {
+    const { media, ...other } = props;
     return (
-        <Card sx={{ display: 'flex' }}>
-            <CardMedia
-                sx={{ width: 154 }}
-                component="img"
-                image={`https://image.tmdb.org/t/p/w154/${props.media.poster_path}`}
-                alt={props.media.name}
-            />
-            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                <CardContent sx={{ flex: '1 0 auto' }}>
-                    <Typography component="div" variant="h5">
-                        {props.media.name}
-                    </Typography>
-                    <Typography variant="subtitle1" color="text.secondary" component="div">
-                        {getFormatedDate(props.media.first_air_date)}
-                    </Typography>
-                </CardContent>
-            </Box>
+        <Card
+            {...other}>
+            <CardActionArea
+                sx={{ display: 'flex', justifyContent: "flex-start" }}
+            >
+                <CardMedia
+                    sx={{ width: 92, height: 138 }}
+                    component="img"
+                    image={`https://image.tmdb.org/t/p/w92/${props.media.poster_path}`}
+                    alt={props.media.name}
+                />
+                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                    <CardContent sx={{ flex: '1 0 auto' }}>
+                        <Typography component="div" variant="body1">
+                            {props.media.name}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary" component="div">
+                            {getFormatedDate(props.media.first_air_date)}
+                        </Typography>
+                    </CardContent>
+                </Box>
+            </CardActionArea>
         </Card>
     )
 }
