@@ -1,5 +1,4 @@
-import { Box, Grid, Modal, Rating, Stack, Typography } from "@mui/material"
-import { useState } from "react";
+import { Box, Modal, Rating, Stack, Typography } from "@mui/material"
 import IMedia from "../../Models/IMedia";
 
 const style = {

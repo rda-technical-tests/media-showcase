@@ -1,5 +1,4 @@
 import { Box, Card, CardActionArea, CardContent, CardMedia, CardProps, Typography } from "@mui/material"
-import { useState } from "react";
 import IMedia from "../../Models/IMedia"
 
 interface IMediaCard extends CardProps {
@@ -14,10 +13,10 @@ const getFormatedDate = (date: string) => {
 function MediaCard(props: IMediaCard) {
     const { media, ...other } = props;
     return (
-        <Card
-            {...other}>
+        <Card{...other}>
             <CardActionArea
                 sx={{ display: 'flex', justifyContent: "flex-start" }}
+                onClick={() => { }}
             >
                 <CardMedia
                     sx={{ width: 92, height: 138 }}
