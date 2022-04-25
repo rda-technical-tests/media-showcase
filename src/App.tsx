@@ -1,9 +1,9 @@
 import { createTheme, CssBaseline, Grid, ThemeProvider } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MediaDetails from "./Components/MediaDetails/MediaDetails";
 import MediaGrid from "./Components/MediaGrid/MediaGrid";
 import IMedia from "./Models/IMedia";
-import movieDBServiceMockup from "./Services/MovieDBService.Mockup";
+import MovieDBService from "./Services/MovieDBService";
 
 const darkTheme = createTheme({
   palette: {
@@ -12,13 +12,41 @@ const darkTheme = createTheme({
 });
 
 function App() {
-  const medias = movieDBServiceMockup.results;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [medias, setMedias] = useState<Array<IMedia>>([]);
   const [selectedMedia, setSelectedMedia] = useState<IMedia>();
+
+
+  let movieDBServiceInstance: MovieDBService;
+  if (process.env.REACT_APP_API_KEY
+    && process.env.REACT_APP_BASE_URL
+    && process.env.REACT_APP_LANGUAGE
+    && process.env.REACT_APP_TIMEZONE) {
+    movieDBServiceInstance = new MovieDBService(
+      process.env.REACT_APP_API_KEY,
+      process.env.REACT_APP_BASE_URL,
+      process.env.REACT_APP_LANGUAGE,
+      process.env.REACT_APP_TIMEZONE
+    );
+  } else {
+    throw new Error("Environement variables for API are not defined")
+  }
+
+  const getDiscoveriesAsync = async () => {
+    try {
+      const newMedias = await movieDBServiceInstance.GetDiscoveries(1);
+      setMedias(newMedias);
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  useEffect(() => {
+    getDiscoveriesAsync();
+  }, [])
+
 
   const handleOpen = () => setIsModalOpen(true);
   const handleClose = () => setIsModalOpen(false);
-
   const handleMediaSelection = (media: IMedia) => {
     setSelectedMedia(media);
     handleOpen();
